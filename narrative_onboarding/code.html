@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Royal Ram - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "primary": "#ffdca1",
+                        "surface-bright": "#37393a",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#92001c",
+                        "primary-fixed": "#ffdea8",
+                        "on-primary-fixed-variant": "#5e4200",
+                        "on-primary-container": "#6b4c00",
+                        "on-primary-fixed": "#271900",
+                        "surface-dim": "#121414",
+                        "on-secondary": "#313030",
+                        "on-tertiary-container": "#a60022",
+                        "secondary": "#c8c6c5",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#121414",
+                        "surface-container-highest": "#333535",
+                        "tertiary-container": "#ffb0ae",
+                        "on-background": "#e2e2e2",
+                        "tertiary-fixed": "#ffdad8",
+                        "primary-container": "#ffb800",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-surface-variant": "#d5c4ab",
+                        "inverse-primary": "#7c5800",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary-fixed": "#410007",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface-container": "#1e2020",
+                        "surface-tint": "#ffba20",
+                        "primary-fixed-dim": "#ffba20",
+                        "surface-variant": "#333535",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "background": "#121414",
+                        "secondary-container": "#474746",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "outline-variant": "#514532",
+                        "outline": "#9e8f78",
+                        "on-primary": "#412d00",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb3b1",
+                        "surface-container-high": "#282a2b",
+                        "inverse-on-surface": "#2f3131",
+                        "on-surface": "#e2e2e2",
+                        "tertiary": "#ffd7d5",
+                        "on-tertiary": "#680011",
+                        "on-secondary-fixed-variant": "#474746"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "8px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "hud-padding": "12px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["EB Garamond"],
+                        "display-lg": ["EB Garamond"],
+                        "headline-lg-mobile": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-top: 0.5px solid #ffb800;
+            border-left: 0.5px solid #ffb800;
+            box-shadow: 0px -20px 40px rgba(0,0,0,0.5);
+        }
+        
+        .slide-up-enter {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        
+        .slide-up-enter-active {
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Suppressing Top Nav Border */
+        .no-border { border: none !important; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface h-screen w-full overflow-hidden flex flex-col antialiased selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation (Shell suppressed visually but structure kept as per requirements for top-level app context, using clear glass to prioritize canvas) -->
+<!-- JSON Shell Instruction: TopAppBar (Semantic Shell Mandate check: This is onboarding, but requested a top app bar in JSON list. We will suppress visually for canvas prioritization but keep structural DOM as requested, adapting to transparent) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-hud-padding bg-transparent no-border flat no shadows">
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200 w-10 h-10 flex items-center justify-center rounded-full bg-surface-container/20 backdrop-blur-md">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary tracking-widest text-center flex-1">
+            ROYAL RAM
+        </div>
+<button class="text-primary hover:opacity-80 transition-opacity scale-95 duration-200 w-10 h-10 flex items-center justify-center rounded-full bg-surface-container/20 backdrop-blur-md">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<!-- Main Canvas - Background Image Area -->
+<main class="relative flex-1 w-full h-full">
+<!-- Background Image with Blur -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+<img alt="Background Scene" class="w-full h-full object-cover scale-105 filter blur-sm brightness-75" data-alt="A cinematic, low-poly 3D render of an Egyptian street at golden hour, evoking the mood of Eid al-Adha. The scene is bathed in warm, amber light with deep, contrasting shadows. The style is modern corporate mixed with luxury, featuring subtle geometric abstraction. The mood is expectant and slightly urgent, with a focus on rich golds and deep, moody surface colors typical of a high-end glassmorphic design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk-dQRnr0beeW6v9FbzoIsmhJQ3ITVhKzAqB38-Hfi7gDDIAJdwxuu_A850_wyFY6K3OidzvLBHgsFCGRRDeP3d2VTCq76lUfozeONhwV9HtTuzybBhjhqfyfliYJaR6ZK2XoQ2Xxh2EgdAp6e56cqJB9KjE2IuXRMtdheIMo03UjnhpIFSMQ0rpTQIfT_SJgTz27Jpd0J7Ur5zsmBIfeiOYvAhd1h2x-d65dY4b-9uHgQOR3DJsz4nZR9qPc9Cgfd8YLzTEX8iUWi"/>
+<!-- Tonal Overlay to ensure text readability and dark mode consistency -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface-dim/40 via-surface/60 to-surface-dim/90"></div>
+</div>
+<!-- Content Container - Bottom Anchored -->
+<div class="absolute bottom-0 left-0 w-full z-20 flex flex-col items-center pb-margin-mobile md:pb-margin-desktop px-gutter slide-up-enter" id="onboarding-card">
+<!-- Glassmorphic Card -->
+<div class="glass-card w-full max-w-md rounded-xl p-6 md:p-8 flex flex-col gap-6 items-center text-center">
+<!-- Icon/Motif Header -->
+<div class="w-16 h-16 rounded-full bg-surface-container-high border border-primary/30 flex items-center justify-center shadow-lg mb-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">directions_run</span>
+</div>
+<!-- Text Content -->
+<div class="flex flex-col gap-3">
+<h1 class="font-display-lg text-display-lg md:font-display-lg md:text-display-lg text-primary drop-shadow-md">
+                        The Chase is On
+                    </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px] mx-auto leading-relaxed">
+                        This time, you don't run from the law—the sheep runs from you. Catch him before time runs out!
+                    </p>
+</div>
+<!-- Primary Action -->
+<button class="w-full py-4 mt-4 bg-[#ffb800] text-[#000000] font-label-sm text-label-sm rounded-lg uppercase tracking-wider shadow-[0_4px_14px_rgba(255,184,0,0.39)] hover:bg-primary transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2 group">
+<span>Start Chase</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Script for Entrance Animation -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.getElementById('onboarding-card');
+            // Trigger reflow to ensure transition works
+            void card.offsetWidth;
+            card.classList.add('slide-up-enter-active');
+            card.classList.remove('slide-up-enter');
+        });
+    </script>
+</body></html>

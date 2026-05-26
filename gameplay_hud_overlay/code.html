@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ROYAL RAM - Gameplay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "primary": "#ffdca1",
+                        "surface-bright": "#37393a",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#92001c",
+                        "primary-fixed": "#ffdea8",
+                        "on-primary-fixed-variant": "#5e4200",
+                        "on-primary-container": "#6b4c00",
+                        "on-primary-fixed": "#271900",
+                        "surface-dim": "#121414",
+                        "on-secondary": "#313030",
+                        "on-tertiary-container": "#a60022",
+                        "secondary": "#c8c6c5",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#121414",
+                        "surface-container-highest": "#333535",
+                        "tertiary-container": "#ffb0ae",
+                        "on-background": "#e2e2e2",
+                        "tertiary-fixed": "#ffdad8",
+                        "primary-container": "#ffb800",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-surface-variant": "#d5c4ab",
+                        "inverse-primary": "#7c5800",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary-fixed": "#410007",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface-container": "#1e2020",
+                        "surface-tint": "#ffba20",
+                        "primary-fixed-dim": "#ffba20",
+                        "surface-variant": "#333535",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "background": "#121414",
+                        "secondary-container": "#474746",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "outline-variant": "#514532",
+                        "outline": "#9e8f78",
+                        "on-primary": "#412d00",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb3b1",
+                        "surface-container-high": "#282a2b",
+                        "inverse-on-surface": "#2f3131",
+                        "on-surface": "#e2e2e2",
+                        "tertiary": "#ffd7d5",
+                        "on-tertiary": "#680011",
+                        "on-secondary-fixed-variant": "#474746"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "8px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "hud-padding": "12px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["EB Garamond"],
+                        "display-lg": ["EB Garamond"],
+                        "headline-lg-mobile": ["EB Garamond"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-top: 0.5px solid #ffb800;
+            border-left: 0.5px solid #ffb800;
+        }
+        .royal-shadow {
+            box-shadow: 0px 20px 40px rgba(0,0,0,0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background h-screen w-screen overflow-hidden relative selection:bg-primary-container selection:text-on-primary-container">
+<!-- Game Environment Background -->
+<div class="absolute inset-0 z-0">
+<img alt="3D stylized Egyptian street scene at sunset, warm golden hour lighting, cinematic chase environment, cartoonish low poly art style" class="w-full h-full object-cover object-center filter brightness-75 contrast-125" data-alt="A stylized, cartoonish 3D rendering of an Egyptian street at sunset. The scene is bathed in warm, intense golden hour lighting, creating deep, dramatic shadows. The architecture features simplified, low-poly geometric shapes with sandstone textures, accented by rich gold detailing. A dynamic, high-contrast 'Luxor Modern' aesthetic is prominent, establishing an exclusive and urgent atmosphere suitable for a fast-paced cinematic chase sequence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCwFkgZ1mlesyqdMSLkx7SW1gR65R0dy_OnH2_orj7DPCIoz4DJalKsYQ47Q-KG838EAn7s8cLgBY8GpOrxS-Es3SW53WonaiFJm0Jz1t2dE5n_9qX7oK7e_E0E9JI7iTmxPiuivmW6pp_IM2wCBtYdtarqDKk_-k2HZK2OCH6U3e7_vZqUYwzLaABTTz-cFIn0H30N28z0M_ATF01EpUQ0zgZuqIH26CwOlEcCmTkVEjN_y71ALW_-SMtxUsMRXDD4V96aO7S4qYd"/>
+<!-- Atmospheric Vignette / Gradient Overlay for depth -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-lowest via-transparent to-surface-lowest/50 pointer-events-none"></div>
+</div>
+<!-- HUD Layer -->
+<div class="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-hud-padding md:p-margin-desktop">
+<!-- Top HUD Area -->
+<div class="flex justify-between items-start w-full">
+<!-- Score / Player Status (Left) -->
+<div class="glass-panel rounded-full px-6 py-3 flex items-center gap-3 royal-shadow animate-pulse" style="animation-duration: 3s;">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-wider">04</span>
+</div>
+<!-- Floating Countdown Timer (Center) -->
+<div class="glass-panel rounded-xl px-8 py-4 flex flex-col items-center justify-center royal-shadow transform scale-110 mt-4 md:mt-0">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-[0.2em] mb-1">Time Remaining</span>
+<span class="font-display-lg text-display-lg text-white font-extrabold tabular-nums tracking-tighter drop-shadow-[0_0_15px_rgba(255,184,0,0.5)]" id="countdown-timer">
+                    19.8
+                </span>
+</div>
+<!-- Pause / Settings (Right) -->
+<button class="glass-panel rounded-full w-12 h-12 flex items-center justify-center royal-shadow pointer-events-auto hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-primary">pause</span>
+</button>
+</div>
+<!-- Gameplay Action Hints / Crosshairs (Center Screen - Subtle) -->
+<div class="flex-grow flex items-center justify-center">
+<!-- Reticle or focus point (optional, keeping minimal as requested) -->
+<div class="w-24 h-24 border-2 border-primary/30 rounded-full flex items-center justify-center animate-ping" style="animation-duration: 2s;">
+<div class="w-2 h-2 bg-primary-container rounded-full"></div>
+</div>
+</div>
+<!-- Bottom Controls / Active Abilities (Minimal) -->
+<div class="flex justify-between items-end w-full">
+<!-- Left Action -->
+<div class="glass-panel rounded-xl p-4 flex flex-col items-center gap-2 royal-shadow opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant">sprint</span>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="w-1/3 h-full bg-primary-container"></div>
+</div>
+</div>
+<!-- Right Action (Active) -->
+<div class="glass-panel rounded-xl p-4 flex flex-col items-center gap-2 royal-shadow border-primary-container pointer-events-auto cursor-pointer hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-sm text-label-sm text-primary">DASH</span>
+</div>
+</div>
+</div>
+<!-- Script for Timer Logic -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerElement = document.getElementById('countdown-timer');
+            let timeLeft = 20.0;
+            
+            const timerInterval = setInterval(() => {
+                timeLeft -= 0.1;
+                
+                if (timeLeft <= 0) {
+                    timeLeft = 0;
+                    clearInterval(timerInterval);
+                    timerElement.classList.add('text-error'); // Turn red on 0
+                    timerElement.classList.remove('text-white');
+                } else if (timeLeft <= 5.0) {
+                    timerElement.classList.add('text-primary-container'); // Turn gold when urgent
+                    timerElement.classList.remove('text-white');
+                    // Add a mild shake effect class if it existed, or just rely on color
+                }
+
+                // Format to 1 decimal place
+                timerElement.textContent = timeLeft.toFixed(1);
+            }, 100); // Update every 100ms
+        });
+    </script>
+</body></html>

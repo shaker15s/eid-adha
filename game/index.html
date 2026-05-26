@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0D0907" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="عيد راش" />
+
+  <!-- SEO & Share -->
+  <title>خروف المعلم علي — عيد راش 🐑</title>
+  <meta name="description" content="الخروف هرب من المعلم علي! أمسكه قبل انتهاء الوقت. لعبة عيد الأضحى الأكثر إثارة!" />
+  <meta property="og:title" content="خروف المعلم علي — عيد راش 🐑" />
+  <meta property="og:description" content="الخروف هرب من المعلم علي! العب الآن — عيد مبارك وكل عام وأنتم بخير!" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Anton&family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&family=Reem+Kufi:wght@400;700&display=block" rel="stylesheet" />
+  <style>
+    /* Ensure Arabic fonts don't cause FOUT */
+    @font-face { font-display: block; }
+  </style>
+
+  <!-- GSAP (only animation library needed — no Three.js!) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Game Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       2D GAME WORLD — Replaces Three.js canvas entirely
+       Layers are stacked back-to-front via z-index
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="game-world">
+
+    <!-- Layer 1: Sky gradient (deepest background) -->
+    <div id="gw-sky"></div>
+
+    <!-- Layer 2: Celestial — moon & stars -->
+    <div id="gw-celestial">
+      <div id="gw-moon"></div>
+      <div id="gw-stars"></div>
+    </div>
+
+    <!-- Layer 3: Egyptian street background image -->
+    <div id="gw-bg"></div>
+
+    <!-- Layer 4: Atmospheric color overlay (golden hour tint) -->
+    <div id="gw-atmosphere"></div>
+
+    <!-- Layer 5: Side dark vignettes (focus center) -->
+    <div id="gw-side-left"></div>
+    <div id="gw-side-right"></div>
+
+    <!-- Layer 6: Perspective ground grid (scrolls to simulate running) -->
+    <div id="gw-ground"></div>
+
+    <!-- Layer 7: Characters & obstacles (all positioned by JS) -->
+    <div id="gw-chars"></div>
+
+    <!-- Layer 8: Ambient particle canvas (golden dust) -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Layer 9: Top effect overlays (speed lines, red vignette) -->
+    <div id="gw-overlay">
+      <div id="gw-panic-vignette"></div>
+      <div id="gw-speed-lines"></div>
+    </div>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 1: CINEMATIC LOADER
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-loader" class="screen screen-loader active">
+
+    <!-- Animated radial glow -->
+    <div class="loader-glow" id="loader-glow"></div>
+
+    <!-- Decorative Islamic geometric ornament top -->
+    <div class="loader-ornament-top" id="loader-ornament-top">
+      <svg viewBox="0 0 120 20" width="120" height="20" aria-hidden="true" fill="none">
+        <path d="M0 10 Q30 0 60 10 Q90 20 120 10" stroke="rgba(245,200,66,0.4)" stroke-width="1"/>
+        <circle cx="60" cy="10" r="3" fill="rgba(245,200,66,0.5)"/>
+        <circle cx="20" cy="8" r="1.5" fill="rgba(245,200,66,0.35)"/>
+        <circle cx="100" cy="8" r="1.5" fill="rgba(245,200,66,0.35)"/>
+      </svg>
+    </div>
+
+    <!-- "عid MUBARAK" Typography Stack -->
+    <div class="loader-title-wrap" id="loader-title">
+      <div class="loader-eid-script" id="loader-eid-script">
+        <span class="loader-arabic-ain" id="loader-ain">ع</span><span class="loader-eid-latin" id="loader-id">id</span>
+      </div>
+      <div class="loader-mubarak-block" id="loader-mubarak" aria-label="MUBARAK">
+        <span class="mubarak-char">M</span><span class="mubarak-char">U</span><span class="mubarak-char">B</span><span class="mubarak-char">A</span><span class="mubarak-char">R</span><span class="mubarak-char">A</span><span class="mubarak-char">K</span>
+      </div>
+    </div>
+
+    <!-- Premium Ram Image -->
+    <div class="loader-sheep-wrap" id="loader-sheep-wrap">
+      <img id="img-loader-ram" alt="خروف المعلم علي" class="loader-ram-img" />
+    </div>
+
+    <!-- Footer progress -->
+    <div class="loader-footer" id="loader-footer">
+      <div class="loader-status-text" id="loader-status-text">جاري تحضير المطاردة…</div>
+      <div class="loader-progress-track">
+        <div class="loader-progress-fill" id="loader-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Decorative bottom ornament -->
+    <div class="loader-ornament-bottom" id="loader-ornament-bottom">
+      <svg viewBox="0 0 160 8" width="160" height="8" aria-hidden="true">
+        <line x1="0" y1="4" x2="65" y2="4" stroke="rgba(245,200,66,0.25)" stroke-width="0.5"/>
+        <polygon points="80,0 85,4 80,8 75,4" fill="rgba(245,200,66,0.4)"/>
+        <line x1="95" y1="4" x2="160" y2="4" stroke="rgba(245,200,66,0.25)" stroke-width="0.5"/>
+      </svg>
+    </div>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 2: NARRATIVE ONBOARDING
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-onboarding" class="screen screen-onboarding">
+
+    <!-- Full-bleed background with depth gradient -->
+    <div class="onboarding-bg" id="onboarding-bg">
+      <img id="img-street-bg" alt="" class="onboarding-street-img" />
+      <div class="onboarding-depth-gradient"></div>
+    </div>
+
+    <!-- Floating card from bottom -->
+    <div class="onboarding-card-wrap" id="onboarding-card-wrap">
+      <div class="glass-card onboarding-card" dir="rtl">
+
+        <!-- Interactive sheep avatar (cool generated picture) -->
+        <div class="onboarding-sheep-avatar" id="onboarding-icon"
+             onclick="if(window.Game && window.Game.audio) window.Game.audio.playBaaa();"
+             title="اضغط لسماع صوت الخروف">
+          <img src="onboarding_sheep.png" alt="Sheep" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+
+        <!-- Text content -->
+        <h1 class="onboarding-title" id="onboarding-title" style="font-size: 24px; line-height: 1.3;">الخروف هرب من المعلم علي وبيجري الحقه بسرعهههه!!!</h1>
+        <p class="onboarding-body" id="onboarding-body">
+          الأطفال بيحاولوا يحموا الخروف ويقفوا في طريقك لمنعك من الإمساك به، اتفاداهم بسرعة وأمسك الخروف! 🏃‍♂️
+        </p>
+
+        <!-- Controls hint -->
+        <div class="onboarding-controls" id="onboarding-controls">
+          <div class="control-hint">
+            <span class="control-arrow">←→</span>
+            <span class="control-label">غيّر المسار</span>
+          </div>
+          <div class="control-hint">
+            <span class="control-arrow">↑</span>
+            <span class="control-label">اقفز</span>
+          </div>
+          <div class="control-hint">
+            <span class="control-arrow">🎯</span>
+            <span class="control-label">ثبّت في مساره</span>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <button class="btn-gold btn-full arabic-ui" id="btn-start-chase" aria-label="اجري يلا">
+          اجري يلا 🐑
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 3: GAMEPLAY HUD
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-gameplay" class="screen screen-gameplay">
+
+    <!-- Cinematic letterbox bars -->
+    <div class="letterbox letterbox--top" id="letterbox-top"></div>
+    <div class="letterbox letterbox--bottom" id="letterbox-bottom"></div>
+
+    <!-- Panic overlay (red vignette, last 5 seconds) -->
+    <div class="panic-overlay" id="panic-overlay"></div>
+
+    <!-- Speed lines -->
+    <div class="speed-lines" id="speed-lines"></div>
+
+    <!-- Collision flash overlay -->
+    <div id="collision-flash"></div>
+
+    <!-- Sheep speech bubble -->
+    <div class="baaa-bubble" id="baaa-bubble">مـاااااء! 🐑</div>
+
+    <!-- Top HUD: score + hearts + timer -->
+    <div class="hud-top">
+      <!-- Score -->
+      <div class="glass-hud hud-score" id="hud-score-panel">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+          <path d="M10 2l2.4 5h5.6l-4.5 3.3 1.7 5.2L10 12.5l-5.2 3 1.7-5.2L2 7h5.6Z" fill="#F5C842"/>
+        </svg>
+        <span class="hud-score-value" id="hud-score-value">0</span>
+      </div>
+
+      <!-- Hearts Panel -->
+      <div class="glass-hud hud-hearts" id="hud-hearts-panel">
+        <span class="heart-dot" id="heart-0">❤️</span>
+        <span class="heart-dot" id="heart-1">❤️</span>
+        <span class="heart-dot" id="heart-2">❤️</span>
+      </div>
+
+      <!-- Timer -->
+      <div class="glass-hud hud-timer" id="hud-timer-panel">
+        <span class="hud-timer-label">الوقت</span>
+        <span class="hud-timer-value" id="hud-timer-value">20.0</span>
+      </div>
+    </div>
+
+    <!-- Catch progress bar -->
+    <div class="catch-bar-wrap" id="catch-bar-wrap" aria-hidden="true">
+      <div class="catch-bar-label">اللحاق! 🎯</div>
+      <div class="catch-bar-track">
+        <div class="catch-bar-fill" id="catch-bar-fill"></div>
+        <div class="catch-bar-glow" id="catch-bar-glow"></div>
+      </div>
+    </div>
+
+    <!-- Motivational text -->
+    <div class="motiv-text" id="motiv-text" dir="rtl" aria-live="polite"></div>
+
+    <!-- Lane indicator -->
+    <div class="lane-indicator" id="lane-indicator">
+      <div class="lane-dot" id="lane-dot-0"></div>
+      <div class="lane-dot active" id="lane-dot-1"></div>
+      <div class="lane-dot" id="lane-dot-2"></div>
+    </div>
+
+    <!-- Swipe hint -->
+    <div class="swipe-hint" id="swipe-hint">
+      <div class="swipe-hint-anim">
+        <svg viewBox="0 0 40 60" width="28" height="42" aria-hidden="true">
+          <rect x="12" y="0" width="16" height="28" rx="8" fill="none" stroke="rgba(245,200,66,0.6)" stroke-width="2"/>
+          <circle cx="20" cy="10" r="3" fill="rgba(245,200,66,0.8)"/>
+          <path d="M8 35 L20 48 L32 35" fill="none" stroke="rgba(245,200,66,0.6)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="swipe-hint-text arabic-ui">انزلق للمراوغة!</span>
+    </div>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 4: VICTORY POSTCARD
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-victory" class="screen screen-victory">
+
+    <!-- Background image -->
+    <div class="victory-bg-wrap">
+      <img id="img-victory-bg" alt="" class="victory-bg-img" />
+      <div class="victory-bg-overlay"></div>
+    </div>
+
+    <!-- Camera shutter flash -->
+    <div class="victory-flash" id="victory-flash"></div>
+
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Victory Title -->
+    <div id="victory-title-wrap" style="position: absolute; bottom: 110px; left: 0; right: 0; text-align: center; z-index: 90; pointer-events: none;">
+      <h1 class="victory-headline" style="font-size: clamp(52px, 16vw, 86px); text-shadow: 0 8px 32px rgba(0,0,0,0.9), 0 0 60px rgba(0,0,0,0.6); color: #F5C842;">عيد مبارك</h1>
+    </div>
+
+    <!-- Buttons directly on the screen at the bottom -->
+    <div class="victory-buttons-fixed-bottom" id="victory-buttons-fixed-bottom">
+      <button class="btn-glass btn-play-again arabic-ui" id="btn-play-again" aria-label="العب تاني">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+          <path d="M4 10a6 6 0 1 1 1.5 4" stroke="#F5C842" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M4 14V10H8" stroke="#F5C842" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        العب تاني
+      </button>
+      <button class="btn-glass btn-download-card arabic-ui" id="btn-download-card" aria-label="كارت العيد">
+        💾 كارت العيد
+      </button>
+      <button class="btn-gold btn-share arabic-ui" id="btn-share-exp" aria-label="شارك اللعبة">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+          <circle cx="15" cy="4" r="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <circle cx="15" cy="16" r="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <circle cx="5" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <path d="M12.6 5.4L7.4 8.6M7.4 11.4l5.2 3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        شارك
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GAME SCRIPTS
+       (No Three.js — saves 600KB load time!)
+       ═══════════════════════════════════════════════════════════ -->
+  <script src="js/assets.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/controller.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/victory.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Set images from Assets (avoids CORS on file://) -->
+  <script>
+    document.getElementById('img-loader-ram').src       = Assets['loader_ram'];
+    document.getElementById('img-street-bg').src        = Assets['street_bg'];
+    document.getElementById('img-victory-bg').src       = 'victory_postcard_bg.png';
+    document.getElementById('gw-bg').style.backgroundImage = 'url("' + Assets['street_bg'] + '")';
+  </script>
+
+  <!-- PWA: only register service worker when served via HTTP -->
+  <script>
+    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+      const link = document.createElement('link');
+      link.rel = 'manifest'; link.href = 'manifest.json';
+      document.head.appendChild(link);
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch(() => {});
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
